@@ -1,0 +1,5 @@
+emd
+PyEMD
+numpy
+pandas
+matplotlib
