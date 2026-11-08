@@ -36,15 +36,16 @@ def main():
     print(f"Полный ряд против ряда без последних {CUT} месяцев\n")
     print(f"  мода    | RMSE по общему участку | RMSE у края ({CUT} мес)")
     print("  " + "-" * 50)
+
     for k in range(m):
         diff = full[:L, k] - trunc[:L, k]
         rms_all = np.sqrt(np.mean(diff ** 2))
         rms_edge = np.sqrt(np.mean(diff[-CUT:] ** 2))
         print(f"  {lbls[k]:7s} |        {rms_all:5.2f}          |     {rms_edge:5.2f}")
 
-    # хвост общего участка: моды полного ряда против укороченного
     show = min(L, 180)
     t = np.arange(L - show, L)
+
     fig, ax = plt.subplots(m, 1, figsize=(11, 1.7 * m), sharex=True)
     for k in range(m):
         ax[k].plot(t, full[L - show:L, k], "k", lw=1.2, label="полный ряд")
@@ -52,6 +53,7 @@ def main():
                    label=f"без {CUT} мес")
         ax[k].axvline(L - 1, color="0.6", lw=0.8)
         ax[k].set_ylabel(lbls[k], fontsize=9)
+        
     ax[0].legend(fontsize=8, loc="upper left")
     ax[-1].set_xlabel("месяц")
     fig.suptitle(f"Моды полного ряда и ряда без последних {CUT} месяцев", fontsize=11)
